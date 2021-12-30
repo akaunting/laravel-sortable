@@ -80,7 +80,7 @@ $posts = $post->sortable(['title' => 'desc'])->paginate(10); // $post->orderBy('
 
 ### Blade Directive
 
-There is a also `blade` directive for you to create sortable links in your views:
+There is also a `blade` directive for you to create sortable links in your views:
 
 ```blade
 @sortablelink('title', trans('general.title'), ['parameter' => 'smile'],  ['rel' => 'nofollow'])
