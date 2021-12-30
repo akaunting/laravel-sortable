@@ -37,12 +37,12 @@ class TraitTest extends TestCase
         $usersTable = $this->user->getTable();
         Request::replace(['sort' => 'name', 'direction' => 'asc']);
         $resultArray = $this->user->scopeSortable($this->user->newQuery())->getQuery()->orders;
-        $expected    = ['column' => $usersTable.'.name', 'direction' => 'asc'];
+        $expected    = ['column' => $usersTable . '.name', 'direction' => 'asc'];
         $this->assertEquals($expected, head($resultArray));
 
         Request::replace(['sort' => 'name', 'direction' => 'desc']);
         $resultArray = $this->user->scopeSortable($this->user->newQuery())->getQuery()->orders;
-        $expected    = ['column' => $usersTable.'.name', 'direction' => 'desc'];
+        $expected    = ['column' => $usersTable . '.name', 'direction' => 'desc'];
         $this->assertEquals($expected, head($resultArray));
 
         Request::replace(['sort' => 'name', 'direction' => '']);
@@ -74,7 +74,7 @@ class TraitTest extends TestCase
         ];
 
         $resultArray = $this->user->scopeSortable($this->user->newQuery(), $default)->getQuery()->orders;
-        $expected    = ['column' => $usersTable.'.name', 'direction' => 'desc'];
+        $expected    = ['column' => $usersTable . '.name', 'direction' => 'desc'];
         $this->assertEquals($expected, head($resultArray));
     }
 
@@ -156,13 +156,13 @@ class TraitTest extends TestCase
         $default    = 'name';
 
         $resultArray = $this->user->scopeSortable($this->user->newQuery(), $default)->getQuery()->orders;
-        $expected    = ['column' => $usersTable.'.name', 'direction' => $this->direction];
+        $expected    = ['column' => $usersTable . '.name', 'direction' => $this->direction];
         $this->assertEquals($expected, head($resultArray));
 
         $default = ['name'];
 
         $resultArray = $this->user->scopeSortable($this->user->newQuery(), $default)->getQuery()->orders;
-        $expected    = ['column' => $usersTable.'.name', 'direction' => $this->direction];
+        $expected    = ['column' => $usersTable . '.name', 'direction' => $this->direction];
         $this->assertEquals($expected, head($resultArray));
     }
 
@@ -250,7 +250,6 @@ class TraitTest extends TestCase
      * @param array  $parameters Array of parameters to pass into method.
      *
      * @return mixed Method return.
-     * 
      * @throws \ReflectionException
      */
     protected function invokeMethod(object &$object, string $methodName, array $parameters = [])

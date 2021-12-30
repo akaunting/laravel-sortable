@@ -88,7 +88,7 @@ class SortableLink
 
         if ($title === null) {
             $title = $sortColumn;
-        } elseif ( ! config('sortable.format_custom_titles', true)){
+        } elseif (! config('sortable.format_custom_titles', true)){
             return $title;
         }
 

@@ -130,8 +130,8 @@ trait Sortable
         $parentTable  = $relation->getParent()->getTable();
 
         if ($parentTable === $relatedTable) {
-            $query       = $query->from($parentTable.' as parent_'.$parentTable);
-            $parentTable = 'parent_'.$parentTable;
+            $query       = $query->from($parentTable . ' as parent_' . $parentTable);
+            $parentTable = 'parent_' . $parentTable;
             $relation->getParent()->setTable($parentTable);
         }
 
@@ -190,6 +190,6 @@ trait Sortable
     {
         $joinType = config('sortable.join_type', 'leftJoin');
 
-        return $query->select($parentTable.'.*')->{$joinType}($relatedTable, $parentPrimaryKey, '=', $relatedPrimaryKey);
+        return $query->select($parentTable . '.*')->{$joinType}($relatedTable, $parentPrimaryKey, '=', $relatedPrimaryKey);
     }
 }
