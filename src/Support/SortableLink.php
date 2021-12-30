@@ -17,7 +17,7 @@ class SortableLink
 
         $title = self::applyFormatting($title, $sortColumn);
 
-        if ($mergeTitleAs = config('sortable.inject_title_as', null)) {
+        if ($mergeTitleAs = config('sortable.inject_title_as')) {
             request()->merge([$mergeTitleAs => $title]);
         }
 
@@ -60,7 +60,7 @@ class SortableLink
      */
     public static function explodeSortParameter(string $parameter): array
     {
-        $separator = config('sortable.relation_column_separator', '.');
+        $separator = config('sortable.relation_column_separator');
 
         if (Str::contains($parameter, $separator)) {
             $oneToOneSort = explode($separator, $parameter);
@@ -88,11 +88,11 @@ class SortableLink
 
         if ($title === null) {
             $title = $sortColumn;
-        } elseif (! config('sortable.format_custom_titles', true)) {
+        } elseif (! config('sortable.format_custom_titles')) {
             return $title;
         }
 
-        $formatting_function = config('sortable.formatting_function', null);
+        $formatting_function = config('sortable.formatting_function');
         if (! is_null($formatting_function) && function_exists($formatting_function)) {
             $title = call_user_func($formatting_function, $title);
         }
@@ -106,15 +106,15 @@ class SortableLink
 
         if ((request()->get('sort') == $sortParameter) && in_array(request()->get('direction'), ['asc', 'desc'])) {
             $icon .= (request()->get('direction') === 'asc')
-                            ? config('sortable.asc_suffix', '-asc')
-                            : config('sortable.desc_suffix', '-desc');
+                            ? config('sortable.asc_suffix')
+                            : config('sortable.desc_suffix');
 
             $direction = request()->get('direction') === 'desc' ? 'asc' : 'desc';
 
             return [$icon, $direction];
         } else {
             $icon      = config('sortable.icons.sortable');
-            $direction = config('sortable.default_direction_unsorted', 'asc');
+            $direction = config('sortable.default_direction_unsorted');
 
             return [$icon, $direction];
         }
@@ -133,13 +133,16 @@ class SortableLink
         return $icon;
     }
 
-    private static function formTrailingTag(string $icon): string
+    /**
+     * @param string|null $icon
+     */
+    private static function formTrailingTag($icon): string
     {
-        if (! config('sortable.icons.enabled', true)) {
+        if (! config('sortable.icons.enabled')) {
             return '</a>';
         }
 
-        $clickableIcon = config('sortable.icons.clickable', false);
+        $clickableIcon = config('sortable.icons.clickable');
         $trailingTag   = static::getIconHtml($icon) . '</a>';
 
         if ($clickableIcon === false) {
@@ -158,17 +161,17 @@ class SortableLink
     {
         $class = [];
 
-        $anchorClass = config('sortable.anchor_class', null);
+        $anchorClass = config('sortable.anchor_class');
         if ($anchorClass !== null) {
             $class[] = $anchorClass;
         }
 
-        $activeClass = config('sortable.active_anchor_class', null);
+        $activeClass = config('sortable.active_anchor_class');
         if ($activeClass !== null && self::shouldShowActive($sortColumn)) {
             $class[] = $activeClass;
         }
 
-        $directionClassPrefix = config('sortable.direction_anchor_class_prefix', null);
+        $directionClassPrefix = config('sortable.direction_anchor_class_prefix');
         if ($directionClassPrefix !== null && self::shouldShowActive($sortColumn)) {
             $class[] = $directionClassPrefix . (request()->get('direction') === 'asc')
                                                     ? config('sortable.asc_suffix', '-asc')
