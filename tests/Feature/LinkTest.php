@@ -54,7 +54,9 @@ class LinkTest extends TestCase
     {
         $link = SortableLink::render(['column', 'ColumnTitle', ['a' => 'b'], ['c' => 'd']]);
 
-        $expected = '<a href="http://localhost?a=b&sort=column&direction=asc" c="d">ColumnTitle</a>' . SortableLink::getIconHtml();
+        $icon = config('sortable.icons.default');
+
+        $expected = '<a href="http://localhost?a=b&sort=column&direction=asc" c="d">ColumnTitle</a>' . SortableLink::getIconHtml($icon);
 
         $this->assertSame($expected, $link);
     }
@@ -64,7 +66,9 @@ class LinkTest extends TestCase
         Config::set('sortable.formatting_function', null);
         $link = SortableLink::render(['column']);
 
-        $expected = '<a href="http://localhost?sort=column&direction=asc">column</a>' . SortableLink::getIconHtml();
+        $icon = config('sortable.icons.default');
+
+        $expected = '<a href="http://localhost?sort=column&direction=asc">column</a>' . SortableLink::getIconHtml($icon);
 
         $this->assertSame($expected, $link);
     }
@@ -75,7 +79,9 @@ class LinkTest extends TestCase
         Config::set('sortable.format_custom_titles', true);
         $link = SortableLink::render(['column']);
 
-        $expected = '<a href="http://localhost?sort=column&direction=asc">Column</a>' . SortableLink::getIconHtml();
+        $icon = config('sortable.icons.default');
+
+        $expected = '<a href="http://localhost?sort=column&direction=asc">Column</a>' . SortableLink::getIconHtml($icon);
 
         $this->assertSame($expected, $link);
     }
@@ -86,7 +92,9 @@ class LinkTest extends TestCase
         Config::set('sortable.format_custom_titles', true);
         $link = SortableLink::render(['column', 'ColumnTitle']);
 
-        $expected = '<a href="http://localhost?sort=column&direction=asc">ColumnTitle</a>' . SortableLink::getIconHtml();
+        $icon = config('sortable.icons.default');
+
+        $expected = '<a href="http://localhost?sort=column&direction=asc">ColumnTitle</a>' . SortableLink::getIconHtml($icon);
 
         $this->assertSame($expected, $link);
     }
@@ -97,7 +105,9 @@ class LinkTest extends TestCase
         Config::set('sortable.format_custom_titles', false);
         $link = SortableLink::render(['column', 'ColumnTitle']);
 
-        $expected = '<a href="http://localhost?sort=column&direction=asc">ColumnTitle</a>' . SortableLink::getIconHtml();
+        $icon = config('sortable.icons.default');
+
+        $expected = '<a href="http://localhost?sort=column&direction=asc">ColumnTitle</a>' . SortableLink::getIconHtml($icon);
 
         $this->assertSame($expected, $link);
     }
@@ -108,7 +118,9 @@ class LinkTest extends TestCase
         Config::set('sortable.format_custom_titles', true);
         $link = SortableLink::render(['column', new HtmlString('<em>ColumnTitle</em>')]);
 
-        $expected = '<a href="http://localhost?sort=column&direction=asc"><em>ColumnTitle</em></a>' . SortableLink::getIconHtml();
+        $icon = config('sortable.icons.default');
+
+        $expected = '<a href="http://localhost?sort=column&direction=asc"><em>ColumnTitle</em></a>' . SortableLink::getIconHtml($icon);
 
         $this->assertSame($expected, $link);
     }
@@ -117,7 +129,9 @@ class LinkTest extends TestCase
     {
         $link = SortableLink::render(['column', 'ColumnTitle', ['a' => 'b'], ['c' => 'd', 'href' => 'http://localhost/custom-path']]);
 
-        $expected = '<a href="http://localhost/custom-path?a=b&sort=column&direction=asc" c="d">ColumnTitle</a>' . SortableLink::getIconHtml();
+        $icon = config('sortable.icons.default');
+
+        $expected = '<a href="http://localhost/custom-path?a=b&sort=column&direction=asc" c="d">ColumnTitle</a>' . SortableLink::getIconHtml($icon);
 
         $this->assertSame($expected, $link);
     }

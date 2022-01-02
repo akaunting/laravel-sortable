@@ -21,9 +21,9 @@ class SortableLink
             request()->merge([$mergeTitleAs => $title]);
         }
 
-        list($icon, $direction) = self::determineDirection($sortColumn, $sortParameter);
+        list($icon, $direction) = self::getDirectionAndIcon($sortColumn, $sortParameter);
 
-        $trailingTag = self::formTrailingTag($icon);
+        $trailingTag = self::getTrailingTag($icon);
 
         $anchorClass = self::getAnchorClass($sortParameter, $anchorAttributes);
 
@@ -100,31 +100,34 @@ class SortableLink
         return $title;
     }
 
-    private static function determineDirection($sortColumn, $sortParameter): array
+    private static function getDirectionAndIcon($sortColumn, $sortParameter): array
     {
         $icon = self::selectIcon($sortColumn);
 
-        if ((request()->get('sort') == $sortParameter) && in_array(request()->get('direction'), ['asc', 'desc'])) {
-            $icon .= (request()->get('direction') === 'asc')
-                            ? config('sortable.asc_suffix')
-                            : config('sortable.desc_suffix');
+        $sort = request()->get('sort');
+        $dir = request()->get('direction');
 
-            $direction = request()->get('direction') === 'desc' ? 'asc' : 'desc';
+        if (($sort == $sortParameter) && in_array($dir, ['asc', 'desc'])) {
+            $icon .= ($dir === 'asc')
+                            ? config('sortable.icons.asc_suffix')
+                            : config('sortable.icons.desc_suffix');
 
-            return [$icon, $direction];
+            $direction = ($dir === 'desc') ? 'asc' : 'desc';
         } else {
             $icon      = config('sortable.icons.sortable');
             $direction = config('sortable.default_direction_unsorted');
-
-            return [$icon, $direction];
         }
+
+        $icon = static::getIconHtml($icon);
+
+        return [$icon, $direction];
     }
 
     private static function selectIcon($sortColumn): string
     {
         $icon = config('sortable.icons.default');
 
-        foreach (config('sortable.types', []) as $value) {
+        foreach (config('sortable.types') as $value) {
             if (in_array($sortColumn, $value['fields'])) {
                 $icon = $value['icon'];
             }
@@ -136,22 +139,17 @@ class SortableLink
     /**
      * @param string|null $icon
      */
-    private static function formTrailingTag($icon): string
+    private static function getTrailingTag($icon): string
     {
         if (! config('sortable.icons.enabled')) {
             return '</a>';
         }
 
-        $clickableIcon = config('sortable.icons.clickable');
-        $trailingTag   = static::getIconHtml($icon) . '</a>';
-
-        if ($clickableIcon === false) {
-            $trailingTag = '</a>' . static::getIconHtml($icon);
-
-            return $trailingTag;
+        if (config('sortable.icons.clickable') === true) {
+            return $icon . '</a>';
         }
 
-        return $trailingTag;
+        return '</a>' . $icon;
     }
 
     /**
@@ -167,12 +165,12 @@ class SortableLink
         }
 
         $activeClass = config('sortable.active_anchor_class');
-        if ($activeClass !== null && self::shouldShowActive($sortColumn)) {
+        if (($activeClass !== null) && self::shouldShowActive($sortColumn)) {
             $class[] = $activeClass;
         }
 
         $directionClassPrefix = config('sortable.direction_anchor_class_prefix');
-        if ($directionClassPrefix !== null && self::shouldShowActive($sortColumn)) {
+        if (($directionClassPrefix !== null) && self::shouldShowActive($sortColumn)) {
             $class[] = $directionClassPrefix . (request()->get('direction') === 'asc')
                                                     ? config('sortable.asc_suffix', '-asc')
                                                     : config('sortable.desc_suffix', '-desc');
@@ -230,11 +228,13 @@ class SortableLink
         return url($path . "?" . $queryString);
     }
 
-    public static function getIconHtml($icon = null): string
+    /**
+     * @param string|null $icon
+     */
+    public static function getIconHtml($icon): string
     {
         $prefix = config('sortable.icons.prefix');
         $suffix = config('sortable.icons.suffix');
-        $icon = $icon ?: config('sortable.icons.default');
         $wrapper = config('sortable.icons.wrapper');
 
         return $prefix . str_replace('{icon}', $icon, $wrapper) . $suffix;

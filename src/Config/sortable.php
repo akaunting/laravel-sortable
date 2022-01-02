@@ -32,13 +32,11 @@ return [
         'prefix'                    => '&nbsp;',
 
         'suffix'                    => '',
+
+        'asc_suffix'                => '-asc',
+
+        'desc_suffix'               => '-desc',
     ],
-
-    // Suffix class that is appended when ascending direction is applied
-    'asc_suffix'                    => '-asc',
-
-    // Suffix class that is appended when descending direction is applied
-    'desc_suffix'                   => '-desc',
 
     // Default anchor class, not applied if value is null
     'anchor_class'                  => null,
