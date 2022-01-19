@@ -2,7 +2,7 @@
 
 ![Downloads](https://img.shields.io/packagist/dt/akaunting/laravel-sortable)
 ![Tests](https://img.shields.io/github/workflow/status/akaunting/laravel-sortable/Tests?label=tests)
-[![StyleCI](https://github.styleci.io/repos/442271942/shield?style=flat&branch=main)](https://styleci.io/repos/442271942)
+[![StyleCI](https://github.styleci.io/repos/442271942/shield?style=flat&branch=master)](https://styleci.io/repos/442271942)
 [![Quality](https://img.shields.io/scrutinizer/quality/g/akaunting/laravel-sortable?label=quality)](https://scrutinizer-ci.com/g/akaunting/laravel-sortable)
 [![License](https://img.shields.io/github/license/akaunting/laravel-sortable)](LICENSE.md)
 
