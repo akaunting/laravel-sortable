@@ -2,6 +2,7 @@
 
 namespace Akaunting\Sortable;
 
+use Akaunting\Sortable\View\Components\SortableLink;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,6 +30,7 @@ class Provider extends ServiceProvider
         ], 'sortable');
 
         $this->registerBladeDirectives();
+        $this->registerBladeComponents();
         $this->registerMacros();
     }
 
@@ -39,6 +41,11 @@ class Provider extends ServiceProvider
 
             return "<?php echo \Akaunting\Sortable\Support\SortableLink::render(array ({$expression}));?>";
         });
+    }
+
+    public function registerBladeComponents()
+    {
+        Blade::component('sortablelink', SortableLink::class);
     }
 
     public function registerMacros()
