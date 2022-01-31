@@ -103,6 +103,14 @@ Examples:
 
 You can use any icon set you want. Just change the `icons.wrapper` from the config file accordingly. By default, it uses Font Awesome.
 
+### Blade Component
+
+Same as the directive, there is also a `blade` component for you to create sortable links in your views:
+
+```html
+<x-sortablelink column="title" title="{{ trans('general.title') }}" :query="['parameter' => 'smile']"  :arguments="['rel' => 'nofollow']" />
+```
+
 ### Sorting Relationships
 
 The package supports `HasOne` and `BelongsTo` relational sorting:
