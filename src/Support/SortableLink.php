@@ -16,6 +16,9 @@ class SortableLink
         list($sortColumn, $sortParameter, $title, $queryParameters, $anchorAttributes) = self::parseParameters($parameters);
 
         $title = self::applyFormatting($title, $sortColumn);
+        
+        // clear special chars
+        $title = htmlspecialchars_decode($title, ENT_QUOTES);
 
         if ($mergeTitleAs = config('sortable.inject_title_as')) {
             request()->merge([$mergeTitleAs => $title]);
