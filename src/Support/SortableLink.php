@@ -86,9 +86,6 @@ class SortableLink
             return $title;
         }
 
-        // clear special chars
-        $title = htmlspecialchars_decode($title, ENT_QUOTES);
-
         if ($title === null) {
             $title = $sortColumn;
         } elseif (! config('sortable.format_custom_titles')) {
@@ -99,6 +96,9 @@ class SortableLink
         if (! is_null($formatting_function) && function_exists($formatting_function)) {
             $title = call_user_func($formatting_function, $title);
         }
+
+        // clear special chars
+        $title = htmlspecialchars_decode($title, ENT_QUOTES);
 
         return $title;
     }
