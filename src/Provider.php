@@ -5,6 +5,7 @@ namespace Akaunting\Sortable;
 use Akaunting\Sortable\View\Components\SortableLink;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 class Provider extends ServiceProvider
 {
@@ -36,10 +37,12 @@ class Provider extends ServiceProvider
 
     public function registerBladeDirectives()
     {
-        Blade::directive('sortablelink', function ($expression) {
-            $expression = ($expression[0] === '(') ? substr($expression, 1, -1) : $expression;
+        $this->callAfterResolving('blade.compiler', function (BladeCompiler $compiler) {
+            $compiler->directive('sortablelink', function ($expression) {
+                $expression = ($expression[0] === '(') ? substr($expression, 1, -1) : $expression;
 
-            return "<?php echo \Akaunting\Sortable\Support\SortableLink::render(array ({$expression}));?>";
+                return "<?php echo \Akaunting\Sortable\Support\SortableLink::render(array ({$expression}));?>";
+            });
         });
     }
 
