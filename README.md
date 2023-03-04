@@ -1,7 +1,7 @@
 # Sortable behavior package for Laravel
 
 ![Downloads](https://img.shields.io/packagist/dt/akaunting/laravel-sortable)
-![Tests](https://img.shields.io/github/workflow/status/akaunting/laravel-sortable/Tests?label=tests)
+![Tests](https://img.shields.io/github/actions/workflow/status/akaunting/laravel-sortable/tests.yml?label=tests)
 [![StyleCI](https://github.styleci.io/repos/442271942/shield?style=flat&branch=master)](https://styleci.io/repos/442271942)
 [![License](https://img.shields.io/github/license/akaunting/laravel-sortable)](LICENSE.md)
 
