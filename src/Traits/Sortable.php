@@ -135,7 +135,7 @@ trait Sortable
             $relation->getParent()->setTable($parentTable);
         }
 
-        if ($relation instanceof HasOne) {
+        if ($relation instanceof HasOne || $relation instanceof MorphOne) {
             $relatedPrimaryKey = $relation->getQualifiedForeignKeyName();
             $parentPrimaryKey  = $relation->getQualifiedParentKeyName();
         } elseif ($relation instanceof BelongsTo) {
