@@ -8,6 +8,7 @@ use BadMethodCallException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Schema;
@@ -135,7 +136,7 @@ trait Sortable
             $relation->getParent()->setTable($parentTable);
         }
 
-        if ($relation instanceof HasOne) {
+        if ($relation instanceof HasOne || $relation instanceof MorphOne) {
             $relatedPrimaryKey = $relation->getQualifiedForeignKeyName();
             $parentPrimaryKey  = $relation->getQualifiedParentKeyName();
         } elseif ($relation instanceof BelongsTo) {
