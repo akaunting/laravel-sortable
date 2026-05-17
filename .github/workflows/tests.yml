@@ -1,6 +1,8 @@
 name: Tests
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   tests:
@@ -10,21 +12,27 @@ jobs:
 
     strategy:
       matrix:
-        php: ['8.0', '8.1', '8.2']
-        laravel: [9.*, 10.*]
+        php: ['8.2', '8.3', '8.4']
+        laravel: ['10.*', '11.*', '12.*', '13.*']
         stability: [prefer-lowest, prefer-stable]
         include:
-          - laravel: 9.*
-            testbench: 7.*
           - laravel: 10.*
             testbench: 8.*
+          - laravel: 11.*
+            testbench: ^9.1.4
+          - laravel: 12.*
+            testbench: 10.*
+          - laravel: 13.*
+            testbench: 11.*
         exclude:
           - laravel: 10.*
-            php: 8.0
+            php: 8.4
+          - laravel: 13.*
+            php: 8.2
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -37,5 +45,6 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --no-coverage
